@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyVault — Class Files</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --bg:#090b10; --panel:#11141b; --panel2:#171b24; --text:#f5f7fb;
+  --muted:#8d96a8; --line:rgba(255,255,255,.08); --accent:#7c5cff;
+  --accent2:#9b87ff; --shadow:0 24px 70px rgba(0,0,0,.38);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; min-height:100vh; font-family:Inter,system-ui,sans-serif;
+  color:var(--text); background:
+  radial-gradient(circle at 15% 0%,rgba(124,92,255,.18),transparent 30%),
+  radial-gradient(circle at 85% 10%,rgba(40,180,255,.10),transparent 28%),var(--bg);
+}
+button,input{font:inherit}
+.app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+.sidebar{border-right:1px solid var(--line);padding:26px 16px;background:rgba(9,11,16,.72);backdrop-filter:blur(18px);position:sticky;top:0;height:100vh}
+.logo{display:flex;align-items:center;gap:11px;padding:4px 10px 28px;font-weight:800;font-size:18px}
+.logo-mark{width:35px;height:35px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),#4b9dff);box-shadow:0 8px 25px rgba(124,92,255,.35)}
+.nav-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#596274;padding:0 12px 10px}
+.nav{display:flex;flex-direction:column;gap:5px}
+.nav button{
+  border:0;background:transparent;color:var(--muted);padding:12px 13px;border-radius:11px;
+  text-align:left;cursor:pointer;display:flex;align-items:center;gap:11px;transition:.2s;
+}
+.nav button:hover{background:rgba(255,255,255,.05);color:var(--text)}
+.nav button.active{background:rgba(124,92,255,.14);color:#fff;box-shadow:inset 3px 0 var(--accent)}
+.nav-icon{width:20px;text-align:center}
+.main{padding:32px clamp(22px,4vw,55px) 55px;max-width:1450px;width:100%;margin:auto}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:34px}
+.crumb{color:var(--muted);font-size:13px}
+.crumb b{color:var(--text)}
+.search{position:relative;width:min(330px,45vw)}
+.search input{width:100%;border:1px solid var(--line);background:rgba(255,255,255,.045);color:#fff;padding:12px 15px;border-radius:12px;outline:none}
+.search input:focus{border-color:rgba(124,92,255,.65);box-shadow:0 0 0 3px rgba(124,92,255,.1)}
+.hero{padding:35px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(135deg,rgba(124,92,255,.16),rgba(255,255,255,.035));box-shadow:var(--shadow);margin-bottom:28px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-90px;top:-120px;background:rgba(124,92,255,.15);filter:blur(5px)}
+.hero h1{font-size:clamp(30px,4vw,46px);margin:0 0 10px;letter-spacing:-.04em}
+.hero p{margin:0;color:var(--muted);max-width:650px;line-height:1.65}
+.stats{display:flex;gap:10px;margin-top:25px;flex-wrap:wrap}
+.stat{background:rgba(0,0,0,.2);border:1px solid var(--line);padding:9px 13px;border-radius:10px;font-size:12px;color:var(--muted)}
+.stat strong{color:#fff;margin-right:5px}
+.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:4px;margin-bottom:25px}
+.tab{white-space:nowrap;border:1px solid var(--line);background:rgba(255,255,255,.035);color:var(--muted);padding:11px 16px;border-radius:11px;cursor:pointer;transition:.2s}
+.tab:hover{color:#fff;background:rgba(255,255,255,.06)}
+.tab.active{color:#fff;background:var(--accent);border-color:transparent;box-shadow:0 9px 25px rgba(124,92,255,.25)}
+.section-head{display:flex;align-items:end;justify-content:space-between;margin:5px 0 15px}
+.section-head h2{margin:0;font-size:20px;letter-spacing:-.02em}
+.section-head span{color:var(--muted);font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.card{
+  border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.025));
+  border-radius:17px;padding:19px;transition:.22s;position:relative;overflow:hidden;
+}
+.card:hover{transform:translateY(-3px);border-color:rgba(124,92,255,.42);box-shadow:0 18px 45px rgba(0,0,0,.24)}
+.card-top{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.code{font-weight:800;font-size:13px;color:#b9adff;background:rgba(124,92,255,.12);padding:6px 8px;border-radius:7px}
+.type{font-size:10px;color:#687286;text-transform:uppercase;letter-spacing:.1em}
+.card h3{margin:16px 0 7px;font-size:16px}
+.card p{margin:0;color:var(--muted);font-size:12px;line-height:1.55;min-height:37px}
+.card-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
+.meta{font-size:11px;color:#697386}
+.download{
+  border:0;background:#fff;color:#0a0b10;padding:8px 12px;border-radius:9px;font-weight:700;font-size:11px;cursor:pointer;text-decoration:none
+}
+.download:hover{background:#e7e4ff}
+.empty{padding:50px;text-align:center;border:1px dashed var(--line);border-radius:17px;color:var(--muted);grid-column:1/-1}
+.mobile-menu{display:none}
+@media(max-width:800px){
+  .app{grid-template-columns:1fr}
+  .sidebar{position:fixed;z-index:10;left:-270px;transition:.25s;width:250px}
+  .sidebar.open{left:0}
+  .mobile-menu{display:block;border:1px solid var(--line);background:rgba(255,255,255,.05);color:#fff;border-radius:10px;padding:9px 11px;cursor:pointer}
+  .topbar{align-items:center}.search{width:100%}.topbar{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="logo"><div class="logo-mark">S</div>Notes</div>
+    <div class="nav-label">Classes</div>
+    <nav class="nav" id="sideNav"></nav>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+        <div class="crumb">Classes / <b id="crumb">Spanish</b></div>
+      </div>
+      <div class="search"><input id="search" placeholder="Search assignments..." oninput="render()"></div>
+    </div>
+
+    <section class="hero">
+      <h1 id="heroTitle">Spanish</h1>
+      <p id="heroDesc">All of your class assignments, resources, and downloads in one clean place.</p>
+      <div class="stats"><div class="stat"><strong id="count">0</strong> assignments</div><div class="stat"><strong>PDF</strong> & other files</div></div>
+    </section>
+
+    <div class="tabs" id="tabs"></div>
+    <div class="section-head"><h2>Assignments</h2><span id="resultCount"></span></div>
+    <div class="grid" id="grid"></div>
+  </main>
+</div>
+
+<script>
+// ============================================================
+// ADD ASSIGNMENTS HERE
+// code: the assignment number (1.02, 1.03, 2.01, etc.)
+// title: what appears on the card
+// file: path/URL to the downloadable file
+// date: optional label
+// ============================================================
+const classes = {
+  spanish: {
+    name: "Spanish",
+    icon: "🇪🇸",
+    desc: "Spanish assignments, worksheets, notes, and study resources.",
+    assignments: [
+      {code:"1.01", title:"Introduction & Basics", file:"files/spanish/1.01.pdf", date:"Unit 1"},
+      {code:"1.02", title:"Vocabulary Practice", file:"files/spanish/1.02.pdf", date:"Unit 1"},
+      {code:"1.03", title:"Grammar Worksheet", file:"files/spanish/1.03.pdf", date:"Unit 1"},
+      {code:"2.01", title:"Reading Assignment", file:"files/spanish/2.01.pdf", date:"Unit 2"}
+    ]
+  },
+  english: {
+    name: "English",
+    icon: "📖",
+    desc: "Essays, readings, worksheets, and other English class materials.",
+    assignments: [
+      {code:"1.01", title:"Reading & Analysis", file:"files/english/1.01.pdf", date:"Unit 1"},
+      {code:"1.02", title:"Writing Practice", file:"files/english/1.02.pdf", date:"Unit 1"},
+      {code:"2.01", title:"Essay Assignment", file:"files/english/2.01.pdf", date:"Unit 2"}
+    ]
+  },
+  history: {
+    name: "History",
+    icon: "🏛️",
+    desc: "History notes, primary sources, assignments, and review materials.",
+    assignments: [
+      {code:"1.01", title:"Early Civilizations", file:"files/history/1.01.pdf", date:"Unit 1"},
+      {code:"1.02", title:"Primary Source Worksheet", file:"files/history/1.02.pdf", date:"Unit 1"},
+      {code:"2.01", title:"Historical Analysis", file:"files/history/2.01.pdf", date:"Unit 2"}
+    ]
+  },
+  algebra: {
+    name: "Algebra",
+    icon: "∑",
+    desc: "Practice problems, notes, review sheets, and algebra assignments.",
+    assignments: [
+      {code:"1.01", title:"Expressions & Variables", file:"files/algebra/1.01.pdf", date:"Unit 1"},
+      {code:"1.02", title:"Solving Equations", file:"files/algebra/1.02.pdf", date:"Unit 1"},
+      {code:"1.03", title:"Inequalities", file:"files/algebra/1.03.pdf", date:"Unit 1"},
+      {code:"2.01", title:"Linear Functions", file:"files/algebra/2.01.pdf", date:"Unit 2"}
+    ]
+  },
+  placeholder: {
+    name: "Placeholder",
+    icon: "＋",
+    desc: "Placeholder class — rename this in the code whenever you're ready.",
+    assignments: [
+      {code:"1.01", title:"Placeholder Assignment", file:"files/placeholder/1.01.pdf", date:"Unit 1"}
+    ]
+  }
+};
+
+let current = "spanish";
+
+function setup(){
+  const side = document.getElementById("sideNav");
+  const tabs = document.getElementById("tabs");
+  side.innerHTML = ""; tabs.innerHTML = "";
+
+  Object.entries(classes).forEach(([key,c])=>{
+    const b = document.createElement("button");
+    b.dataset.class = key;
+    b.innerHTML = `<span class="nav-icon">${c.icon}</span>${c.name}`;
+    b.onclick = ()=>selectClass(key);
+    side.appendChild(b);
+
+    const t = document.createElement("button");
+    t.className = "tab";
+    t.dataset.class = key;
+    t.textContent = c.name;
+    t.onclick = ()=>selectClass(key);
+    tabs.appendChild(t);
+  });
+  render();
+}
+
+function selectClass(key){
+  current = key;
+  document.getElementById("sidebar").classList.remove("open");
+  render();
+}
+
+function render(){
+  const c = classes[current];
+  const query = document.getElementById("search").value.trim().toLowerCase();
+
+  document.getElementById("crumb").textContent = c.name;
+  document.getElementById("heroTitle").textContent = c.name;
+  document.getElementById("heroDesc").textContent = c.desc;
+
+  document.querySelectorAll("#sideNav button").forEach(b=>b.classList.toggle("active",b.dataset.class===current));
+  document.querySelectorAll("#tabs .tab").forEach(b=>b.classList.toggle("active",b.dataset.class===current));
+
+  const items = c.assignments.filter(a =>
+    `${a.code} ${a.title} ${a.date||""}`.toLowerCase().includes(query)
+  ).sort((a,b)=>a.code.localeCompare(b.code,undefined,{numeric:true}));
+
+  document.getElementById("count").textContent = c.assignments.length;
+  document.getElementById("resultCount").textContent = `${items.length} shown`;
+
+  const grid = document.getElementById("grid");
+  if(!items.length){
+    grid.innerHTML = `<div class="empty">No assignments match your search.</div>`;
+    return;
+  }
+
+  grid.innerHTML = items.map(a=>`
+    <article class="card">
+      <div class="card-top"><span class="code">${escapeHtml(a.code)}</span><span class="type">Assignment</span></div>
+      <h3>${escapeHtml(a.title)}</h3>
+      <p>Download the assignment file and keep it with your class materials.</p>
+      <div class="card-bottom">
+        <span class="meta">${escapeHtml(a.date || "Class material")}</span>
+        <a class="download" href="${encodeURI(a.file)}" download>Download ↓</a>
+      </div>
+    </article>
+  `).join("");
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+function toggleMenu(){document.getElementById("sidebar").classList.toggle("open")}
+setup();
+</script>
+</body>
+</html>
